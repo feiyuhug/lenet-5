@@ -20,6 +20,7 @@ class OutputLayer(FcLayer) :
                 self.maps[0][0][i] = 0.5 * sum((pre_nodes - self.weight[i])**2)
 
     def back_propa(self, pre_mapset, current_error, learn_rate, isweight_update) :
+        self.current_error = current_error
         current_error_matrix = array(matrix(list(current_error[0]) * self.weight.shape[1]).T) #current_error代表偏差相对当前层输出的偏导数
         if isweight_update :
             weight_update = (self.weight - array(list(pre_mapset[0]) * self.weight.shape[0])) * current_error_matrix

@@ -27,7 +27,7 @@ def train_net(train_covnet, logfile, cycle) :
     train_btime = time.time()
     logfile.write('train_cycle:' + str(cycle) + '\t')
     for c in range(cycle) :
-        case_num = 10000
+        case_num = numImages
         logfile.write("trainset_num:" + str(case_num) + '\t')
         for case in range(case_num) :
             im = struct.unpack_from('>784B', train_im, im_index)
@@ -67,7 +67,8 @@ def test_net(train_covnet, logfile) :
     label_index += struct.calcsize('>II')
     
     correct_num = 0
-    testcase_num = 500
+    testcase_num = numImages
+    logfile.write("testset_num:" + str(testcase_num) + '\t')
     for case in range(testcase_num) :
         im = struct.unpack_from('>784B', test_im, im_index)
         label = struct.unpack_from('>1B', test_label, label_index)

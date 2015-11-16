@@ -28,7 +28,8 @@ class PoolingLayer(Layer) :
             self.pool_op(pre_mapset[i], i)
         
     def back_propa(self, pre_mapset, current_error, learn_rate, isweight_update) :
-	selfmap_line = self.maps.reshape([self.maps.shape[0] * self.maps.shape[1] * self.maps.shape[2]])
+	self.current_error = current_error
+        selfmap_line = self.maps.reshape([self.maps.shape[0] * self.maps.shape[1] * self.maps.shape[2]])
 	currenterror_line = current_error.reshape([current_error.shape[0] * current_error.shape[1] * current_error.shape[2]])
 	pcurrent_error = array([((2.0/3)*(1.7159 - (1/1.7159) * selfmap_line[i]**2))*currenterror_line[i]\
 		for i in range(len(selfmap_line))]).reshape(self.maps.shape)

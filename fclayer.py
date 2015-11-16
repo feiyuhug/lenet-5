@@ -24,7 +24,8 @@ class FcLayer(Layer) :
             self.fc_op(pre_mapset, i)
 
     def back_propa(self, pre_mapset, current_error, learn_rate, isweight_update) :
-	pcurrent_error = [((2.0/3)*(1.7159 - (1/1.7159) * self.maps[0][0][i]**2))*current_error[0][0][i]\
+	self.current_error = current_error
+        pcurrent_error = [((2.0/3)*(1.7159 - (1/1.7159) * self.maps[0][0][i]**2))*current_error[0][0][i]\
                 for i in range(self.maps.shape[-1])]
 	weight_update = dot(matrix(pcurrent_error).T, \
 			matrix(pre_mapset.reshape([1, pre_mapset.shape[0] * pre_mapset.shape[1] * pre_mapset.shape[2]])))

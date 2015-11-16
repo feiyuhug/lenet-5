@@ -52,7 +52,7 @@ class CovNet(object) :
         pool2_error = self.covlay3.back_propa(self.poolinglay2.maps, cov3_error, learn_rate, True)
         cov1_error = self.poolinglay2.back_propa(self.covlay1.maps, pool2_error, learn_rate, True)
         ilayer_error = self.covlay1.back_propa(mapset, cov1_error, learn_rate, True)
-
+        
     def print_netweight(self, filepath) :
         outputfile = open(filepath, 'w')
         cut_line = '\n-----------------------------------------------\n'
@@ -63,6 +63,19 @@ class CovNet(object) :
         outputfile.write(str(self.covlay5.covcores) + str(self.covlay5.covbias) + cut_line)
         outputfile.write(str(self.fclay6.weight) + str(self.fclay6.bias) + cut_line)
         outputfile.write(str(self.outputlay7.weight) + cut_line)
+
+    def print_neterror(self, filepath) :
+        outputfile = open(filepath, 'w')
+        cut_line = '\n-----------------------------------------------\n'
+        outputfile.write(str(self.covlay1.current_error) + cut_line)
+        outputfile.write(str(self.poolinglay2.current_error) + cut_line)
+        outputfile.write(str(self.covlay3.current_error) + cut_line)
+        outputfile.write(str(self.poolinglay4.current_error) + cut_line)
+        outputfile.write(str(self.covlay5.current_error) + cut_line)
+        outputfile.write(str(self.fclay6.current_error) + cut_line)
+        outputfile.write(str(self.outputlay7.current_error) + cut_line)
+
+
 
 
 
