@@ -8,6 +8,7 @@ from covlayer import *
 from poolinglayer import *
 from fclayer import *
 from outputlayer import *
+from softmax_outputlayer import * 
 
 class CovNet(object) :
     def __init__(self) :
@@ -27,8 +28,9 @@ class CovNet(object) :
         
         self.covlay5 = CovLayer([[1, 1]] * 120, [[16, 5, 5]] * 120)
         self.fclay6 = FcLayer(84, 120)
-
-        self.outputlay7 = OutputLayer(10, 84)
+        
+        self.outputlay7 = SoftmaxOutputLayer(10, 84)
+        #self.outputlay7 = OutputLayer(10, 84)
 
     def fw_prop(self, mapset, mapclass = -1) :
         
@@ -38,14 +40,14 @@ class CovNet(object) :
         self.poolinglay4.calc_maps(self.covlay3.maps)
         self.covlay5.calc_maps(self.poolinglay4.maps)
         self.fclay6.calc_maps(self.covlay5.maps)
-        self.outputlay7.rbf(self.fclay6.maps, mapclass)
+        self.outputlay7.softmax(self.fclay6.maps)
+        #self.outputlay7.rbf(self.fclay6.maps, mapclass)
 
-    def bw_prop(self, mapset, mapclass) :
+    def bw_prop(self, mapset, mapclass, learn_rate) :
         output_error = zeros([1, 1, 10])
         output_error[0][0][mapclass] = 1
-        learn_rate = 0.0005
         
-        fclayer_error = self.outputlay7.back_propa(self.fclay6.maps, output_error, learn_rate, False)
+        fclayer_error = self.outputlay7.back_propa(self.fclay6.maps, output_error, learn_rate, True)
         cov5_error = self.fclay6.back_propa(self.covlay5.maps, fclayer_error, learn_rate, True)
         pool4_error = self.covlay5.back_propa(self.poolinglay4.maps, cov5_error, learn_rate, True)
         cov3_error = self.poolinglay4.back_propa(self.covlay3.maps, pool4_error, learn_rate, True)
