@@ -39,7 +39,7 @@ def train_net(train_covnet, logfile, cycle, learn_rate, case_num = -1) :
             label_index += struct.calcsize('>1B')
             im = array(im)
             im = im.reshape(28,28)
-            bigim = [[-0.1] * 32] * 32
+            bigim = list(ones((32, 32)) * -0.1)
             for i in range(28) :
                 for j in range(28) :
                     if im[i][j] > 0 :
@@ -81,7 +81,7 @@ def test_net(train_covnet, logfile, case_num = -1) :
         label_index += struct.calcsize('>1B')
         im = array(im)
         im = im.reshape(28,28)
-        bigim = [[-0.1] * 32] * 32
+        bigim = list(ones((32, 32)) * -0.1)
         for i in range(28) :
             for j in range(28) :
                 if im[i][j] > 0 :
